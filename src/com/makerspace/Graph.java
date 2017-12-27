@@ -1,6 +1,8 @@
 package com.makerspace;
 
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -44,10 +46,20 @@ public class Graph<T> {
         return storage.containsKey(node);
     }
 
-    List<T> getLastLevel() {
+    private List<T> getLevel(int lvl) {
         return  storage.values().stream()
-                .filter(node -> (node.getValue() == (depth - 2)))
+                .filter(node -> (node.getValue() == lvl))
                 .flatMap(entry -> entry.getKey().stream())
                 .collect(Collectors.toList());
+    }
+
+    public void walkBreadthFirst(Consumer<? super T> applyToEach) {
+        for (int i = 0; i < depth; i++) {
+            getLevel(i).forEach(applyToEach);
+        }
+    }
+
+    public List<T> getLastLevel() {
+        return getLevel(depth - 2);
     }
 }

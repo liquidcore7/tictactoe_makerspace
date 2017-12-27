@@ -1,5 +1,9 @@
 package com.makerspace;
 
+import visualization.FieldImage;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Collection;
 
 import java.util.stream.Collectors;
@@ -39,6 +43,12 @@ public class Main {
         }
 
         System.out.println(stateMap.getDepth());
+
+        cachedX.stream().findFirst().ifPresent(fieldState -> {
+            FieldImage imageProvider = new FieldImage(100);
+            BufferedImage image = imageProvider.fromFieldState(fieldState);
+            imageProvider.save(image, "field.png"); //looks really ugly, needs redesign
+        });
 
     }
 }

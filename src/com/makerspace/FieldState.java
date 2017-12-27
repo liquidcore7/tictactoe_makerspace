@@ -3,7 +3,7 @@ package com.makerspace;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
-enum CellState {O, X, None};
+;
 
 public class FieldState implements Cloneable {
     private short xPos;
@@ -49,7 +49,7 @@ public class FieldState implements Cloneable {
         return ((xPos | oPos) & (1 << pos)) > 0;
     }
 
-    CellState getCell(int n) {
+    public CellState getCell(int n) {
         if ((xPos & (1 << n)) > 0)
             return CellState.X;
         else if ((oPos & (1 << n)) > 0)
