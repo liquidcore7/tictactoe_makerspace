@@ -95,9 +95,11 @@ public class FieldState implements Cloneable {
         return accu.toString();
     }
 
-    boolean isWon() {
+    public boolean isWon() {
         return IntStream.of(winMask)
-                .anyMatch(mask -> ((xPos | oPos) & mask) > 0);
+                .anyMatch(mask ->
+                        ( ((xPos & mask) == mask) || ((oPos & mask) == mask) )
+                );
     }
 
     FieldState compose(int pos, CellState toSet)  {
