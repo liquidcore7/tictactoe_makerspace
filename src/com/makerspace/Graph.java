@@ -50,6 +50,7 @@ public class Graph<T> {
         return  storage.values().stream()
                 .filter(node -> (node.getValue() == lvl))
                 .flatMap(entry -> entry.getKey().stream())
+                .distinct()
                 .collect(Collectors.toList());
     }
 

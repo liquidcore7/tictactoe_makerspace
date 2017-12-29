@@ -45,7 +45,7 @@ public class Main {
 
         System.out.println(stateMap.getDepth());
 
-        GraphImage image = new GraphImage<FieldState, FieldImage>(1200, 60, 45, new FieldImage(5));
+        GraphImage<FieldState, FieldImage> image = new GraphImage<>(1200, 60, 45, new FieldImage(5));
         BufferedImage out = image.draw(stateMap);
         image.saveImage(out, "graph.png");
 
