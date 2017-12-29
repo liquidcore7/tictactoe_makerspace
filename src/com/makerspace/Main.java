@@ -1,6 +1,7 @@
 package com.makerspace;
 
 import visualization.FieldImage;
+import visualization.GraphImage;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -44,11 +45,9 @@ public class Main {
 
         System.out.println(stateMap.getDepth());
 
-        cachedX.stream().findFirst().ifPresent(fieldState -> {
-            FieldImage imageProvider = new FieldImage(100);
-            BufferedImage image = imageProvider.fromFieldState(fieldState);
-            imageProvider.save(image, "field.png"); //looks really ugly, needs redesign
-        });
+        GraphImage image = new GraphImage<FieldState, FieldImage>(1200, 60, 45, new FieldImage(5));
+        BufferedImage out = image.draw(stateMap);
+        image.saveImage(out, "graph.png");
 
     }
 }

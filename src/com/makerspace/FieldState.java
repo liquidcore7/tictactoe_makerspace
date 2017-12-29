@@ -3,8 +3,6 @@ package com.makerspace;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
-;
-
 public class FieldState implements Cloneable {
     private short xPos;
     private short oPos;
@@ -116,6 +114,6 @@ public class FieldState implements Cloneable {
     }
 
     boolean compatible(FieldState next) {
-        return !isWon() && (((this.oPos & next.xPos) | (this.xPos & next.oPos)) == 0);
+        return !isWon() && (((this.oPos | this.xPos) & (next.oPos | next.xPos)) == 0);
     }
 }

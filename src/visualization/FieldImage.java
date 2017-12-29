@@ -10,7 +10,7 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class FieldImage {
+public class FieldImage implements ObjDrawer<FieldState> {
 
     private Image X;
     private Image O;
@@ -35,7 +35,7 @@ public class FieldImage {
         return raw;
     }
 
-    public BufferedImage fromFieldState(FieldState fieldState) {
+    public BufferedImage draw(FieldState fieldState) {
         BufferedImage field = new BufferedImage(size * 3, size * 3, BufferedImage.TYPE_BYTE_GRAY);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -48,8 +48,7 @@ public class FieldImage {
         return drawBounds(field);
     }
 
-    @Deprecated
-    public void save(RenderedImage image, String filename) {
+    public void saveImage(RenderedImage image, String filename) {
         try {
             File out = new File(filename);
             String extension = filename.substring(filename.indexOf('.') + 1);

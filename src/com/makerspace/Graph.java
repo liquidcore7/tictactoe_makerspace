@@ -22,7 +22,7 @@ public class Graph<T> {
         depth = 1;
     }
 
-    List<T> getChildren(T node) {
+    public List<T> getChildren(T node) {
         return storage.get(node).getKey();
     }
 
@@ -46,7 +46,7 @@ public class Graph<T> {
         return storage.containsKey(node);
     }
 
-    private List<T> getLevel(int lvl) {
+    public List<T> getLevel(int lvl) {
         return  storage.values().stream()
                 .filter(node -> (node.getValue() == lvl))
                 .flatMap(entry -> entry.getKey().stream())
