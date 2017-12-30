@@ -3,8 +3,6 @@ package com.makerspace;
 import visualization.FieldImage;
 import visualization.GraphImage;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.Collection;
 
 import java.util.stream.Collectors;
@@ -45,9 +43,8 @@ public class Main {
 
         System.out.println(stateMap.getDepth());
 
-        GraphImage<FieldState, FieldImage> image = new GraphImage<>(1200, 60, 45, new FieldImage(5));
-        BufferedImage out = image.draw(stateMap);
-        image.saveImage(out, "graph.png");
-
+        GraphImage<FieldState, FieldImage> image = new GraphImage<>(1600, 10,
+                                                    80, 250, new FieldImage(20));
+        image.draw(stateMap).save("graph.png");
     }
 }

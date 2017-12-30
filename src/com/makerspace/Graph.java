@@ -2,14 +2,13 @@ package com.makerspace;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
 
 public class Graph<T> {
 
-    private HashMap<T, KeyValuePair<List<T>, Integer >> storage;
+    private HashMap<T, Node<T>> storage;
     private int depth;
 
     public int getDepth() {
@@ -18,21 +17,30 @@ public class Graph<T> {
 
     public Graph(T startNode) {
         storage = new HashMap<>();
-        storage.put(startNode, new KeyValuePair<>(new LinkedList<>(), 0));
+        storage.put(startNode, new Node<>(startNode, 0));
         depth = 1;
     }
 
-    public List<T> getChildren(T node) {
-        return storage.get(node).getKey();
+    public Node<T> getNode(T value) {
+        return storage.get(value);
+    }
+
+    public Collection<T> getChildren(T node) {
+        return storage.get(node)
+                .getChildren()
+                .stream()
+                .map(nd -> nd.getValue())
+                .collect(Collectors.toList());
     }
 
     public void addNode(T parent, T node) {
-        KeyValuePair<List<T>, Integer> current = storage.get(parent);
-        current.getKey().add(node);
-        if (!storage.containsKey(node)) {
-            storage.put(node, new KeyValuePair<>(new LinkedList<>(), current.getValue() + 1));
-        }
-        if (current.getValue() == (depth - 1)) {
+
+        Node<T> prnt = storage.get(parent);
+        Node<T> curr = prnt.addChild(node);
+
+        storage.putIfAbsent(node, curr);
+
+        if (prnt.getLevel() == (depth - 1)) {
             depth++;
         }
     }
@@ -46,11 +54,12 @@ public class Graph<T> {
         return storage.containsKey(node);
     }
 
-    public List<T> getLevel(int lvl) {
+    public Collection<T> getLevel(int lvl) {
         return  storage.values().stream()
-                .filter(node -> (node.getValue() == lvl))
-                .flatMap(entry -> entry.getKey().stream())
+                .filter(node -> (node.getLevel() == lvl))
+                .flatMap(entry -> entry.getChildren().stream())
                 .distinct()
+                .map(node -> node.getValue())
                 .collect(Collectors.toList());
     }
 
@@ -60,7 +69,7 @@ public class Graph<T> {
         }
     }
 
-    public List<T> getLastLevel() {
+    public Collection<T> getLastLevel() {
         return getLevel(depth - 2);
     }
 }
